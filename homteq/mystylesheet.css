@@ -6,6 +6,11 @@ body
 {
 background-image: url("background_img.png");
 }
+
+#product{
+	text-align: center;
+}
+
 #container
 {
 margin: 0 auto;
