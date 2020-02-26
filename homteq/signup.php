@@ -32,7 +32,7 @@ include ("headfile.html"); //include header layout file
 echo "<h4>".$pagename."</h4>"; //display name of the page on the web page
 //display random text
 
-echo "<form action= signup_process.php method=post>
+echo "<form action=signup_process.php method=post>
 			<label>* First Name : </label>
 				<input type='text' name='firstName'>
 			 <br><br>
@@ -57,7 +57,7 @@ echo "<form action= signup_process.php method=post>
 			 	<input type='password' name='confPassword'>
 			 <br><br>
 
-			 	<input type=submit value='Sign Up'>
+			 	<input type=submit value='Sign Up' name='sign_up'>
 		</form>";
 
 include("footfile.html"); //include head layout
