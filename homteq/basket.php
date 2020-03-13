@@ -1,11 +1,13 @@
 <?php
 session_start();
+session_start();
 include("db.php");
 $pagename="Your Smart Basket"; //Create and populate a variable called $pagename
 echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; //Call in stylesheet
 echo "<title>".$pagename."</title>"; //display name of the page as window title
 echo "<body>";
 include ("headfile.html"); //include header layout file
+include ("detectlogin.php");
 echo "<h4>".$pagename."</h4>"; //display name of the page on the web page
 
 // $_SESSION['basket']=null;
@@ -100,8 +102,15 @@ if(isset($_POST['h_prodid'])){
  	 	 	echo "</table>";
  	 	 	
             echo "<br><a href='clearbasket.php'>Clear Basket</a>";
+
+            if(isset($_SESSION['userId'])){
+
+            	echo "<br><br>To Finalize Your Order <a href='checkout.php'>Checkout</a>";
+
+            }else{
             echo "<br><br>New hometeq Customers : <a href='signup.php'>Sign Up</a>";
             echo "<br><br>Returning hometq Customers : <a href='login.php'>Log in</a>";
+        }
  	 	
 
 include("footfile.html"); //include head layout
