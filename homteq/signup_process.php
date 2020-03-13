@@ -37,7 +37,8 @@ return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]
 
 
 if(empty($firstName)||empty($lastName)||empty($address)||empty($postCode)||empty($telNo)||empty($email)||empty($password1)||empty($password2)){
-	echo "Empty";
+		
+	echo "<br>All mandatory fields need to be filled in";
 }else{
 
 	if($password1!=$password2){
@@ -72,12 +73,9 @@ if(empty($firstName)||empty($lastName)||empty($address)||empty($postCode)||empty
 		echo "<br><h5>Email not in the right format</h5>
 				<br><h3>Go Back <a href='Signup.php'>Sign Up</a></h3>";
 			}
-
-
 	}
 
-	
-	echo "All mandatory fields need to be filled in";
+
 }
 
 
