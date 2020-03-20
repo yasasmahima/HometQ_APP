@@ -16,11 +16,20 @@ $userId=$_SESSION['userId'];
 
 echo "$currentdatetime";
 
-echo "<br>$userId";
+
 
 $insert_user_quary="INSERT INTO orders (userId,orderDateTime) VALUES ('$userId','$currentdatetime')";
 $execution=mysqli_query($conn, $insert_user_quary);
-if($execution){
+
+$orderId= mysqli_insert_id($conn);
+
+echo "<br>Your Order id :  $orderId";
+
+if(mysqli_errno($conn)==0){
+
+
+
+
 	$total_amount=0;
 	echo "<table>
  	 	 		<tr>
@@ -62,6 +71,11 @@ if($execution){
  	 	 	echo "<input type=hidden name=r_prodId value=".$index.">";
  	 	 	echo "</form>";
 
+ 	 	 	$insert_to_orderLine="INSERT INTO orderline (orderNo,prodId,quantityOrdered,subTotal) VALUES ('$orderId','$index','$value','$subTotal')";
+
+ 	 	 	$execution=mysqli_query($conn,$insert_to_orderLine);
+
+
 				}
  	 	 	}
 
@@ -71,9 +85,14 @@ if($execution){
 
  	 	 	echo "</table>";
 
- 	 	 		echo "$userId";
- 	 	 	$update_user_quary="UPDATE orders SET orderTotal='$total_amount' WHERE userId='$userId'";
+ 	 	 
+ 	 	 	$update_user_quary="UPDATE orders SET orderTotal='$total_amount' WHERE orderNo='$orderId'";
 			$execution=mysqli_query($conn, $update_user_quary);
+
+
+			echo "<a href='logout.php'>LogOut</a>";
+
+
  	 	 	 
 }else{
 	echo "Error in Database";
