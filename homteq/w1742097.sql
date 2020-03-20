@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2020 at 04:53 AM
+-- Generation Time: Mar 20, 2020 at 07:40 AM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.3.5
 
@@ -67,6 +67,40 @@ INSERT INTO `basket` (`id`, `prodId`, `qty`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orderline`
+--
+
+CREATE TABLE `orderline` (
+  `orderLineId` int(4) NOT NULL,
+  `orderNo` int(4) NOT NULL,
+  `prodId` int(4) NOT NULL,
+  `quantityOrdered` int(11) NOT NULL,
+  `subTotal` decimal(8,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `orderNo` int(4) NOT NULL,
+  `userId` int(4) NOT NULL,
+  `orderDateTime` date NOT NULL,
+  `orderTotal` decimal(8,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`orderNo`, `userId`, `orderDateTime`, `orderTotal`) VALUES
+(46, 1, '2020-03-20', '22304.00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -113,22 +147,8 @@ CREATE TABLE `useres` (
 
 INSERT INTO `useres` (`userId`, `userType`, `userFName`, `userSName`, `userAddress`, `userPostCode`, `userTellNo`, `userEmail`, `userPassword`) VALUES
 (1, 'C', 'Yasas', 'Mahima', 'Ambalangoda', '80332', '0719076633', 'yasasymahima@gmail.com', '123'),
-(3, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '123'),
-(4, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '123'),
-(5, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '123'),
-(6, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '123'),
-(7, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '123'),
-(8, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '12'),
-(9, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '12'),
-(10, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '12'),
-(11, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '12'),
-(12, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '12'),
-(13, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '12'),
-(14, 'C', 'yasas', 'mahima', ' fsd', '123', '0wsx', 'yasasymahima@gmail.com', '123'),
-(15, 'C', 'sx', 'sc', ' sas', 's', '0wsx', 'yasasymahima@gmail.com', '12'),
-(16, 'C', 'sx', 'sc', ' sas', 's', '0wsx', 'yasasymahima@gmail.com', '12'),
-(17, 'C', 'sx', 'sc', ' sas', 's', '0wsx', 'yasasymahima@gmail.com', '12'),
-(18, 'C', 'sx', 'sc', ' sas', 's', '0wsx', 'yasasymahima@gmail.com', '12');
+(20, 'C', 'yasas', 'Mahima', 'LOndon', '123', '0719076633', 'yasasymahim1a@gmail.com', 'Abc@123'),
+(23, 'C', 'yasas', 'Mahima', ' london', '123', '0719076633', 'yasas1ymahima@gmail.com', '1234');
 
 --
 -- Indexes for dumped tables
@@ -139,6 +159,21 @@ INSERT INTO `useres` (`userId`, `userType`, `userFName`, `userSName`, `userAddre
 --
 ALTER TABLE `basket`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orderline`
+--
+ALTER TABLE `orderline`
+  ADD PRIMARY KEY (`orderLineId`),
+  ADD KEY `orderNo` (`orderNo`),
+  ADD KEY `prodId` (`prodId`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`orderNo`),
+  ADD KEY `userId` (`userId`);
 
 --
 -- Indexes for table `product`
@@ -163,6 +198,18 @@ ALTER TABLE `basket`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
+-- AUTO_INCREMENT for table `orderline`
+--
+ALTER TABLE `orderline`
+  MODIFY `orderLineId` int(4) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `orderNo` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
@@ -172,7 +219,24 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `useres`
 --
 ALTER TABLE `useres`
-  MODIFY `userId` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `userId` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `orderline`
+--
+ALTER TABLE `orderline`
+  ADD CONSTRAINT `orderline_ibfk_1` FOREIGN KEY (`orderNo`) REFERENCES `orders` (`orderNo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orderline_ibfk_2` FOREIGN KEY (`prodId`) REFERENCES `product` (`prodId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `useres` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
