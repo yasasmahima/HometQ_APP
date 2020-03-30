@@ -1,6 +1,6 @@
 <?php
 session_start();
-session_start();
+// session_start();
 include("db.php");
 $pagename="Your Smart Basket"; //Create and populate a variable called $pagename
 echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; //Call in stylesheet
