@@ -45,11 +45,29 @@ if(empty($email)||empty($password)){
 						$_SESSION['userType']=$arrayp['userType'];
 						$_SESSION['userFName']=$arrayp['userFName'];
 						$_SESSION['userSName']=$arrayp['userSName'];
-						echo "<br><br><b>Log in Sucess</b>";
-						echo "<br>Hello ".$arrayp['userFName'];
-						echo "<br>You have succesfully sighned up as a hometq csutomer";
-						echo "<br>Continue Shopping for <a href='index.php'>Home Tech</a>";
-						echo "<br>View Your <a href='basket.php'>Smart Basket</a>";
+
+
+						if($arrayp["userType"]=="C"){
+							 $_SESSION['user_type']="Customer";
+
+							echo "<br><br><b>Log in Sucess</b>";
+							echo "<br>Hello ".$arrayp['userFName'];
+							echo "<br>You have succesfully sighned up as a hometq csutomer";
+							echo "<br>Continue Shopping for <a href='index.php'>Home Tech</a>";
+							echo "<br>View Your <a href='basket.php'>Smart Basket</a>";
+						}else
+						
+						 if($arrayp["userType"]=="A"){
+							 $_SESSION['user_type']="Administrator";
+
+							echo "<br><br><b>Log in Sucess</b>";
+							echo "<br>Hello ".$arrayp['userFName'];
+							echo "<br>You have succesfully sighned up as a hometq Administrator";
+						
+						
+						}
+
+						
 					}
 
 					

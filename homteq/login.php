@@ -2,7 +2,7 @@
 $pagename="Log in"; //Create and populate a variable called $pagename
 
 session_start();
-include("db.php");
+
 echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; //Call in stylesheet
 echo "<title>".$pagename."</title>"; //display name of the page as window title
 echo "<body>";

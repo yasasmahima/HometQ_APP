@@ -1,88 +1,93 @@
+
 <?php
 session_start();
 include("db.php");
-$pagename="Your Sign Up Results"; //Create and populate a variable called $pagename
-echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; //Call in stylesheet
-echo "<title>".$pagename."</title>"; //display name of the page as window title
-echo "<body>";
-include ("headfile.html"); //include header layout file
-echo "<h4>".$pagename."</h4>"; //display name of the page on the web page
-//display random text
 
-$firstName=$_POST['firstName'];
-$lastName=$_POST['lastName'];
-$address=$_POST['address'];
-$postCode=$_POST['postCode'];
-$telNo=$_POST['telNo'];
-$email=$_POST['email'];
-$password1=$_POST['password'];
-$password2=$_POST['confPassword'];
-
-function valid_email($str) {
-return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
-}
-
-// function email_availability($str){
-// 	// Check Given device is Already avilable in the Database
-//   $check_already_available="SELECT * FROM useres WHERE userEmail ='$str' LIMIT 1";
-//   $check_result=mysqli_query($connection, $check_already_available);
-//   $getResult=mysqli_fetch_assoc($check_result);
-  
-//   if($getResult){
-//   	return true;
-//   }else{
-//   	return false;
-//   }
-// }
-
-
-if(empty($firstName)||empty($lastName)||empty($address)||empty($postCode)||empty($telNo)||empty($email)||empty($password1)||empty($password2)){
-		
-	echo "<br>All mandatory fields need to be filled in";
-}else{
-
-	if($password1!=$password2){
-		echo "<br><h5>ERROR - Password Doesn't Match<br>Make Sure You Enter them Correctly</h5>
-		<br><h3>Go Back <a href='Signup.php'>Sign Up</a></h3>";
-	}else{
-
-			if(valid_email($email)){
-
-				$check_already_available="SELECT * FROM useres WHERE userEmail ='$email' LIMIT 1";
-  				$check_result=mysqli_query($conn, $check_already_available);
-  				$getResult=mysqli_fetch_assoc($check_result);
-
-				if(!$getResult){
-
-					$insert_user_quary="INSERT INTO useres 
-    				(userType,userFName,userSName,userAddress,userPostCode,userTellNo,userEmail,userPassword) 
-  					VALUES('C','$firstName','$lastName' ,'$address','$postCode','$telNo','$email','$password1')";
-  					
-  					if(mysqli_query($conn, $insert_user_quary)){
-  							echo "<h3><a href='login.php'>Log in</a></h3>";
-  					}else{
-  						echo mysql_errno($conn);
-  					}
-  				}else{
-  					echo "Email Already in Use";
-  				}
-
-  					
-  					
+	$pagename="Your Sign Up Results"; //Create and populate a variable called $pagename
+	echo "<link rel=stylesheet type=text/css href=mystylesheet.css>"; //Call in stylesheet
+	echo "<title>".$pagename."</title>"; //display name of the page as window title
+	echo "<body>";
+	include ("headfile.html"); //include header layout file
+	echo "<h4>".$pagename."</h4>"; //display name of the page on the web page
+	
+	$fname = $_POST['fname'];
+	$lname = $_POST['lname'];
+	$address = $_POST['address'];
+	$pcode = $_POST['pcode'];
+	$telno = $_POST['telno'];
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	$confirmPassword = $_POST['confirmPassword'];
+	
+			
+		//To check if the fields are filled.
+		if (!empty($fname)&&($lname)&&($address)&&($pcode)&&($telno)&&($email)&&($password)) {
+			
+			$validatePaswsword = strcmp($password,$confirmPassword);
+			
+			//validating the password
+			if($validatePaswsword == 0){
+				
+				//validating the email
+				if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+					
+					$SQL="insert into 
+						useres (userType,userFName, userSName, userAddress, userPostCode,userTellNo,userEmail,userPassword)
+						values ('C','".$fname."', '".$lname."','".$address."','".$pcode."', '".$telno."','".$email."','".$password."')";
+					
+					$exeSQL = mysqli_query($conn, $SQL) or die (mysqli_error($conn));
+					
+					//to check mysql errors
+					if (mysqli_errno($conn)==0)
+					{
+						echo "<b>Sign-Up Successful! </b><br><br>";
+						echo "You have sucessfully registered to our page. <br><br>";
+						echo "To continue, please<a href='login.php'> LOGIN </a> ";
+					}else{
+						echo "<p>There is an error with the details you entered.</p>";
+						
+						//To check if the email exists in the database
+						if (mysqli_errno($conn)==1062)
+						{
+							echo "<b>Sign-Up Failed</b><br><br>";
+							echo "Email already in use .<br>";
+							echo "You may be already registered or try another email address.<br><br>";
+							echo "Go back to <a href='signup.php'>SIGN UP</a>";
+						}
+						if (mysqli_errno($conn)==1064)
+						{
+							echo "<b>Sign-Up Failed</b><br><br>";
+							echo "<br>Invalid characters entered in the form.";
+							echo "Make sure you avoid the following characters : apostrophes like ['] and backslahes like [\] <br><br>";
+							echo "Go back to <a href='signup.php'>SIGN UP</a>";
+						}
+					}
+					
+				}else{
+					echo "<b>Sign-Up Failed</b><br><br>";
+					echo "Email not valid<br> ";
+					echo "Make sure you enter a correct email address<br><br>";
+					echo "Go back to <a href='signup.php'>SIGN UP</a> again.";
+				}
+				
+				
 			}else{
-		echo "<br><h5>Email not in the right format</h5>
-				<br><h3>Go Back <a href='Signup.php'>Sign Up</a></h3>";
+				echo "<b>Sign-Up Failed</b><br><br>";
+				echo "The 2 Passwords are not matching<br>";
+				echo "Make sure you ener them correctly<br><br>";
+				echo "Go back to <a href='signup.php'>SIGN UP</a>";
+				
 			}
-	}
 
-
-}
-
-
-
-// echo $address;
-
-// echo $firstName;
-include("footfile.html"); //include head layout
-echo "</body>";
+		}else{
+			echo "<b>Sign-Up Failed</b><br><br>";
+			echo"<p>Your SignUp form is incompleted and all fields are mandatory<p>";
+			echo"Make sure you provide all the required details<br><br>";
+			echo"Go back <a href='signup.php'>SIGN UP</a> ";
+		}
+	//echo"Hi $fname";
+	
+	
+	include("footfile.html"); //include head layout
+	echo "</body>";
 ?>
