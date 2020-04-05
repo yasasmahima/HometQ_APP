@@ -18,7 +18,7 @@ echo "$currentdatetime";
 
 
 
-$insert_user_quary="INSERT INTO orders (userId,orderDateTime) VALUES ('$userId','$currentdatetime')";
+$insert_user_quary="INSERT INTO orders (userId,orderDateTime,orderStatus) VALUES ('$userId','$currentdatetime','Placed')";
 $execution=mysqli_query($conn, $insert_user_quary);
 
 $orderId= mysqli_insert_id($conn);
